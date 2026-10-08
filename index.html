@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cartes mémoire DCOC-CA1</title>
+<style>
+:root{--bg:#f6f7f9;--ink:#15202b;--mute:#5b6773;--card:#fff;--line:#d9dee4;--red:#d93a3f;--blue:#1a8fc4;--ok:#1f8a5b;--back:#eaf5fb;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10161c;--ink:#eef2f6;--mute:#9aa7b4;--card:#1a232c;--line:#2d3a46;--back:#14303f;--ok:#4cc38a}}
+:root[data-theme="dark"]{--bg:#10161c;--ink:#eef2f6;--mute:#9aa7b4;--card:#1a232c;--line:#2d3a46;--back:#14303f;--ok:#4cc38a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+main{max-width:560px;margin:0 auto;padding:16px}
+h1{font-size:1.25rem;margin:4px 0 12px;display:flex;align-items:center;gap:10px}
+h1 i{display:inline-block;width:14px;height:14px;background:var(--red);transform:rotate(45deg);box-shadow:10px 0 0 var(--blue)}
+h1 i{margin-right:10px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px}
+.tabs button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:.9rem;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar div{height:100%;width:0;background:var(--blue);transition:width .25s}
+.meta{display:flex;justify-content:space-between;color:var(--mute);font-size:.85rem;margin:6px 0 12px}
+.scene{perspective:1100px;height:min(52vh,380px);min-height:260px}
+.card{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .45s;cursor:pointer;border:0;padding:0;background:none;font:inherit;color:inherit;text-align:left}
+.card.flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
+.face.b{transform:rotateY(180deg);background:var(--back);border-color:var(--blue)}
+.tag{position:absolute;top:12px;left:16px;font-size:.8rem;color:var(--mute)}
+.q{font-size:1.25rem;font-weight:600}
+.a{font-size:1.05rem;white-space:pre-line}
+.hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:.8rem;color:var(--mute)}
+.row{display:flex;gap:10px;margin-top:14px}
+.row button,.btn{flex:1;border:0;border-radius:12px;padding:14px;font:inherit;font-weight:600;cursor:pointer;color:#fff}
+.no{background:var(--red)}.yes{background:var(--ok)}
+.row button:disabled{opacity:.35;cursor:default}
+.tools{display:flex;gap:10px;margin-top:12px}
+.tools button{flex:1;background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:10px;font:inherit;font-size:.9rem;cursor:pointer}
+.end{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center}
+.end .big{font-size:2rem;font-weight:700}
+.end .btn{display:block;width:100%;margin-top:10px;background:var(--blue)}
+.end .btn.alt{background:var(--ink);color:var(--bg)}
+button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.card,.bar div{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<h1><i></i>Cartes mémoire DCOC-CA1</h1>
+<div class="tabs" id="tabs"></div>
+<div class="bar"><div id="prog"></div></div>
+<div class="meta"><span id="count"></span><span id="score"></span></div>
+<div id="stage"></div>
+</main>
+<script>
+var C=[
+[4,"Cite 3 raisons d'effectuer des recherches sur un produit.","• Acquérir des connaissances\n• Comparer avec les produits de tiers\n• Mettre en avant les avantages\n• Connaître l'avis des utilisateurs\n• Argumenter et montrer la valeur ajoutée"],
+[4,"Première étape d'une recherche ?","Fixer un objectif clair : que veux-tu savoir ?"],
+[4,"Source : tester toi-même","Le mieux est de tester, déguster ou utiliser le produit ou la prestation."],
+[4,"Source : Internet","Offre les possibilités de recherche les plus complètes (mais attention à la fiabilité)."],
+[4,"Que t'apprend l'emballage d'un produit ?","Les premiers indices sur son utilisation et, pour l'alimentaire, les informations sur les intolérances."],
+[4,"Source : spécialiste interne","Ton supérieur ou tes collègues plus expérimentés."],
+[4,"Pourquoi les fournisseurs sont-ils une bonne source ?","Ce sont des sources directes. Ils proposent parfois des formations sur les produits ou des dégustations."],
+[4,"Autres sources du commerce de détail","• Système interne\n• Classeur d'information sur le produit\n• Revues et livres spécialisés\n• Documentation de l'école et des cours interentreprises (CI)"],
+[4,"Pourquoi choisir les bons mots-clés ?","Dans un moteur de recherche ou un répertoire de mots-clés, il est impératif de choisir des mots-clés appropriés pour trouver des résultats pertinents."],
+[5,"Les 3 contrôles pour une source fiable","• Vérifier l'actualité\n• Vérifier l'éditeur\n• Vérifier les mots-clés"],
+[5,"4 signes d'une fausse information","• Erreurs d'orthographe ou de grammaire\n• Nombreux points d'exclamation ou mots en majuscules\n• Éléments non identifiés par les moteurs de recherche\n• Informations ou faits exagérés et douteux"],
+[5,"Existe-t-il une réglementation pour tous les labels ?","Non. Il faut donc toujours vérifier le label auprès des organismes et bien se renseigner."],
+[5,"Quel site permet de vérifier les labels en Suisse ?","labelinfo.ch"],
+[5,"Bourgeon Bio Suisse","Label de Bio Suisse pour les denrées alimentaires issues de l'agriculture biologique."],
+[5,"Fairtrade Max Havelaar","Label de la Fondation Max Havelaar pour les produits issus d'un commerce équitable."],
+[5,"IP-Suisse","Label de l'association IP-Suisse pour les produits alimentaires issus de production intégrée."],
+[5,"Demeter","Label de la fédération Demeter pour les produits issus de l'agriculture biodynamique."],
+[5,"ASC","Label de l'Aquaculture Stewardship Council pour les poissons issus d'une pisciculture durable."],
+[5,"Coop Naturaplan / Migros Bio","Labels d'entreprise (Coop, Migros) pour les denrées issues de l'agriculture biologique."],
+[5,"Coop Naturafarm","Label de Coop pour la viande et les œufs provenant d'un élevage en plein air respectueux des animaux."],
+[5,"Migros « De la Région » / Naturland","« De la Région » : aliments produits dans la région (Migros).\nNaturland : produits de l'agriculture biologique (association Naturland)."],
+[6,"Quels sont les 6 groupes d'arguments ?","• Publicitaire\n• Commercial\n• Qualité\n• Utilisation\n• Émotionnel\n• Technique"],
+[6,"Argument publicitaire : exemples ?","Les slogans : « Think different » (Apple), « Just do it » (Nike), « Venez comme vous êtes » (McDonald's)."],
+[6,"Argument commercial : exemples ?","Les promotions et offres : « PROMO », « 2 articles achetés, le 3e offert »."],
+[6,"Argument sur la qualité : exemples ?","Labels et certifications, marque réputée : Swiss Made, Bio Suisse, Rolex, Toblerone, Cailler."],
+[6,"Argument sur l'utilisation : exemple ?","Montrer à quoi sert le produit : un nettoyeur Kärcher pour la terrasse, la voiture ou les meubles de jardin."],
+[6,"Argument émotionnel : principe ?","Il touche les émotions du client : plaisir, surprise, envie, séduction."],
+[6,"Argument technique : exemples ?","Matière recyclée, longévité, durée de chargement (caractéristiques du produit)."],
+[6,"Pourquoi connaître ses concurrents ?","Pour citer les avantages de tes produits et prestations par rapport à ceux proposés par d'autres magasins."],
+[6,"Principe général pour argumenter ?","Mieux tu connais ton produit ou ta prestation, mieux tu peux argumenter."]
+];
+var TABS=[["all","Tout"],["4","Leçon 4"],["5","Leçon 5"],["6","Leçon 6"],["rev","À revoir"]];
+var st={deck:"all",q:[],i:0,flip:false,ok:0,ko:0};
+var rev={};
+try{rev=JSON.parse(localStorage.getItem("dcoc_rev")||"{}")}catch(e){rev={}}
+function save(){try{localStorage.setItem("dcoc_rev",JSON.stringify(rev))}catch(e){}}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function build(shuffle){
+  var ids=[];
+  C.forEach(function(c,n){
+    if(st.deck==="all"||String(c[0])===st.deck||(st.deck==="rev"&&rev[n]))ids.push(n);
+  });
+  if(shuffle){for(var j=ids.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var t=ids[j];ids[j]=ids[k];ids[k]=t}}
+  st.q=ids;st.i=0;st.flip=false;st.ok=0;st.ko=0;render();
+}
+function tabs(){
+  var h="";
+  TABS.forEach(function(t){
+    var n=t[0]==="rev"?Object.keys(rev).length:"";
+    h+='<button aria-pressed="'+(st.deck===t[0])+'" data-d="'+t[0]+'">'+t[1]+(n!==""?" ("+n+")":"")+"</button>";
+  });
+  var el=document.getElementById("tabs");el.innerHTML=h;
+  [].forEach.call(el.querySelectorAll("button"),function(b){b.onclick=function(){st.deck=b.getAttribute("data-d");build(false)}});
+}
+function render(){
+  tabs();
+  var s=document.getElementById("stage"),tot=st.q.length;
+  document.getElementById("prog").style.width=(tot?Math.min(st.i,tot)/tot*100:0)+"%";
+  document.getElementById("count").textContent=tot?("Carte "+Math.min(st.i+1,tot)+" sur "+tot):"";
+  document.getElementById("score").textContent=tot?(st.ok+" sues · "+st.ko+" à revoir"):"";
+  if(!tot){
+    s.innerHTML='<div class="end"><div class="big">Rien ici</div><p>'+(st.deck==="rev"?"Tu n'as aucune carte à revoir. Bravo !":"Aucune carte.")+'</p><button class="btn" id="all">Voir toutes les cartes</button></div>';
+    document.getElementById("all").onclick=function(){st.deck="all";build(false)};return;
+  }
+  if(st.i>=tot){
+    var pct=Math.round(st.ok/tot*100);
+    s.innerHTML='<div class="end"><div class="big">'+pct+' %</div><p>'+st.ok+' cartes sues, '+st.ko+' à revoir.</p>'+
+      (st.ko?'<button class="btn" id="rv">Revoir les cartes ratées</button>':'')+
+      '<button class="btn alt" id="rs">Recommencer (mélangé)</button></div>';
+    var r=document.getElementById("rv");
+    if(r)r.onclick=function(){st.deck="rev";build(true)};
+    document.getElementById("rs").onclick=function(){build(true)};
+    return;
+  }
+  var c=C[st.q[st.i]];
+  s.innerHTML='<div class="scene"><button class="card'+(st.flip?" flip":"")+'" id="card" aria-label="Retourner la carte">'+
+    '<div class="face"><span class="tag">Leçon '+c[0]+'</span><div class="q">'+esc(c[1])+'</div><span class="hint">Touche pour voir la réponse</span></div>'+
+    '<div class="face b"><span class="tag">Réponse</span><div class="a">'+esc(c[2])+'</div></div></button></div>'+
+    '<div class="row"><button class="no" id="no"'+(st.flip?"":" disabled")+'>À revoir</button><button class="yes" id="yes"'+(st.flip?"":" disabled")+'>Je savais</button></div>'+
+    '<div class="tools"><button id="sh">Mélanger</button><button id="sk">Passer</button></div>';
+  document.getElementById("card").onclick=function(){
+    st.flip=!st.flip;this.classList.toggle("flip",st.flip);
+    document.getElementById("no").disabled=!st.flip;document.getElementById("yes").disabled=!st.flip;
+  };
+  document.getElementById("yes").onclick=function(){answer(true)};
+  document.getElementById("no").onclick=function(){answer(false)};
+  document.getElementById("sh").onclick=function(){build(true)};
+  document.getElementById("sk").onclick=function(){st.i++;st.flip=false;render()};
+}
+function answer(good){
+  var id=st.q[st.i];
+  if(good){st.ok++;delete rev[id]}else{st.ko++;rev[id]=1}
+  save();st.i++;st.flip=false;render();
+}
+build(false);
+</script>
+</body>
+</html>
+ 
