@@ -1,156 +1,38 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Cartes mémoire DCOC-CA1</title>
-<style>
-:root{--bg:#f6f7f9;--ink:#15202b;--mute:#5b6773;--card:#fff;--line:#d9dee4;--red:#d93a3f;--blue:#1a8fc4;--ok:#1f8a5b;--back:#eaf5fb;
-box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10161c;--ink:#eef2f6;--mute:#9aa7b4;--card:#1a232c;--line:#2d3a46;--back:#14303f;--ok:#4cc38a}}
-:root[data-theme="dark"]{--bg:#10161c;--ink:#eef2f6;--mute:#9aa7b4;--card:#1a232c;--line:#2d3a46;--back:#14303f;--ok:#4cc38a}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
-main{max-width:560px;margin:0 auto;padding:16px}
-h1{font-size:1.25rem;margin:4px 0 12px;display:flex;align-items:center;gap:10px}
-h1 i{display:inline-block;width:14px;height:14px;background:var(--red);transform:rotate(45deg);box-shadow:10px 0 0 var(--blue)}
-h1 i{margin-right:10px}
-.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px}
-.tabs button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;font:inherit;font-size:.9rem;cursor:pointer}
-.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
-.bar div{height:100%;width:0;background:var(--blue);transition:width .25s}
-.meta{display:flex;justify-content:space-between;color:var(--mute);font-size:.85rem;margin:6px 0 12px}
-.scene{perspective:1100px;height:min(52vh,380px);min-height:260px}
-.card{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .45s;cursor:pointer;border:0;padding:0;background:none;font:inherit;color:inherit;text-align:left}
-.card.flip{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;justify-content:center;overflow:auto}
-.face.b{transform:rotateY(180deg);background:var(--back);border-color:var(--blue)}
-.tag{position:absolute;top:12px;left:16px;font-size:.8rem;color:var(--mute)}
-.q{font-size:1.25rem;font-weight:600}
-.a{font-size:1.05rem;white-space:pre-line}
-.hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:.8rem;color:var(--mute)}
-.row{display:flex;gap:10px;margin-top:14px}
-.row button,.btn{flex:1;border:0;border-radius:12px;padding:14px;font:inherit;font-weight:600;cursor:pointer;color:#fff}
-.no{background:var(--red)}.yes{background:var(--ok)}
-.row button:disabled{opacity:.35;cursor:default}
-.tools{display:flex;gap:10px;margin-top:12px}
-.tools button{flex:1;background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:10px;font:inherit;font-size:.9rem;cursor:pointer}
-.end{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;text-align:center}
-.end .big{font-size:2rem;font-weight:700}
-.end .btn{display:block;width:100%;margin-top:10px;background:var(--blue)}
-.end .btn.alt{background:var(--ink);color:var(--bg)}
-button:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
-@media (prefers-reduced-motion:reduce){.card,.bar div{transition:none}}
-</style>
-</head>
-<body>
-<main>
-<h1><i></i>Cartes mémoire DCOC-CA1</h1>
-<div class="tabs" id="tabs"></div>
-<div class="bar"><div id="prog"></div></div>
-<div class="meta"><span id="count"></span><span id="score"></span></div>
-<div id="stage"></div>
-</main>
-<script>
-var C=[
-[4,"Cite 3 raisons d'effectuer des recherches sur un produit.","• Acquérir des connaissances\n• Comparer avec les produits de tiers\n• Mettre en avant les avantages\n• Connaître l'avis des utilisateurs\n• Argumenter et montrer la valeur ajoutée"],
-[4,"Première étape d'une recherche ?","Fixer un objectif clair : que veux-tu savoir ?"],
-[4,"Source : tester toi-même","Le mieux est de tester, déguster ou utiliser le produit ou la prestation."],
-[4,"Source : Internet","Offre les possibilités de recherche les plus complètes (mais attention à la fiabilité)."],
-[4,"Que t'apprend l'emballage d'un produit ?","Les premiers indices sur son utilisation et, pour l'alimentaire, les informations sur les intolérances."],
-[4,"Source : spécialiste interne","Ton supérieur ou tes collègues plus expérimentés."],
-[4,"Pourquoi les fournisseurs sont-ils une bonne source ?","Ce sont des sources directes. Ils proposent parfois des formations sur les produits ou des dégustations."],
-[4,"Autres sources du commerce de détail","• Système interne\n• Classeur d'information sur le produit\n• Revues et livres spécialisés\n• Documentation de l'école et des cours interentreprises (CI)"],
-[4,"Pourquoi choisir les bons mots-clés ?","Dans un moteur de recherche ou un répertoire de mots-clés, il est impératif de choisir des mots-clés appropriés pour trouver des résultats pertinents."],
-[5,"Les 3 contrôles pour une source fiable","• Vérifier l'actualité\n• Vérifier l'éditeur\n• Vérifier les mots-clés"],
-[5,"4 signes d'une fausse information","• Erreurs d'orthographe ou de grammaire\n• Nombreux points d'exclamation ou mots en majuscules\n• Éléments non identifiés par les moteurs de recherche\n• Informations ou faits exagérés et douteux"],
-[5,"Existe-t-il une réglementation pour tous les labels ?","Non. Il faut donc toujours vérifier le label auprès des organismes et bien se renseigner."],
-[5,"Quel site permet de vérifier les labels en Suisse ?","labelinfo.ch"],
-[5,"Bourgeon Bio Suisse","Label de Bio Suisse pour les denrées alimentaires issues de l'agriculture biologique."],
-[5,"Fairtrade Max Havelaar","Label de la Fondation Max Havelaar pour les produits issus d'un commerce équitable."],
-[5,"IP-Suisse","Label de l'association IP-Suisse pour les produits alimentaires issus de production intégrée."],
-[5,"Demeter","Label de la fédération Demeter pour les produits issus de l'agriculture biodynamique."],
-[5,"ASC","Label de l'Aquaculture Stewardship Council pour les poissons issus d'une pisciculture durable."],
-[5,"Coop Naturaplan / Migros Bio","Labels d'entreprise (Coop, Migros) pour les denrées issues de l'agriculture biologique."],
-[5,"Coop Naturafarm","Label de Coop pour la viande et les œufs provenant d'un élevage en plein air respectueux des animaux."],
-[5,"Migros « De la Région » / Naturland","« De la Région » : aliments produits dans la région (Migros).\nNaturland : produits de l'agriculture biologique (association Naturland)."],
-[6,"Quels sont les 6 groupes d'arguments ?","• Publicitaire\n• Commercial\n• Qualité\n• Utilisation\n• Émotionnel\n• Technique"],
-[6,"Argument publicitaire : exemples ?","Les slogans : « Think different » (Apple), « Just do it » (Nike), « Venez comme vous êtes » (McDonald's)."],
-[6,"Argument commercial : exemples ?","Les promotions et offres : « PROMO », « 2 articles achetés, le 3e offert »."],
-[6,"Argument sur la qualité : exemples ?","Labels et certifications, marque réputée : Swiss Made, Bio Suisse, Rolex, Toblerone, Cailler."],
-[6,"Argument sur l'utilisation : exemple ?","Montrer à quoi sert le produit : un nettoyeur Kärcher pour la terrasse, la voiture ou les meubles de jardin."],
-[6,"Argument émotionnel : principe ?","Il touche les émotions du client : plaisir, surprise, envie, séduction."],
-[6,"Argument technique : exemples ?","Matière recyclée, longévité, durée de chargement (caractéristiques du produit)."],
-[6,"Pourquoi connaître ses concurrents ?","Pour citer les avantages de tes produits et prestations par rapport à ceux proposés par d'autres magasins."],
-[6,"Principe général pour argumenter ?","Mieux tu connais ton produit ou ta prestation, mieux tu peux argumenter."]
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#ffffff"><title>Révise+ • DCOC-CA1</title><style>
+:root{font-family:Inter,system-ui,-apple-system,'Segoe UI',sans-serif;color:#182238;background:#f6f8fc}*{box-sizing:border-box}body{margin:0}button,select{font:inherit}button{cursor:pointer}main{max-width:660px;margin:auto;padding:24px 18px 70px}.top{display:flex;align-items:center;justify-content:space-between}.brand{font-size:25px;font-weight:850;letter-spacing:-1px}.brand b{color:#4d6ff4}.chip{background:#e9edff;color:#465bc7;border-radius:99px;padding:9px 13px;font-size:12px;font-weight:800}.sub{color:#788398;font-size:14px;margin:7px 0 23px}.panel{background:#fff;border:1px solid #e8ecf4;border-radius:24px;padding:22px;box-shadow:0 12px 35px #27365b0b;margin:16px 0}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.12em;color:#7686a2;text-transform:uppercase}.hero h1{font-size:27px;line-height:1.2;letter-spacing:-1px;margin:12px 0}.hero p{color:#748095;font-size:14px;line-height:1.5}.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}.mode{border:1px solid #e7ebf3;background:white;padding:20px 14px;text-align:left;border-radius:20px;transition:transform .2s,box-shadow .2s}.mode:active,.action:active{transform:scale(.97)}.mode.active{border:2px solid #647cf4;box-shadow:0 8px 25px #647cf41b}.mode .emoji{font-size:30px}.mode strong{display:block;margin:10px 0 5px}.mode small{color:#7c8799}.settings{display:grid;grid-template-columns:1fr 1fr;gap:12px}label{font-size:12px;color:#738097;font-weight:750;display:block;margin-bottom:8px}select{width:100%;border:1px solid #e5eaf3;background:#fff;border-radius:13px;padding:12px;color:#23314a}.action{border:0;border-radius:14px;background:#536ef0;color:#fff;padding:14px 18px;font-weight:800;transition:transform .2s,background .2s}.action.secondary{background:#edf0ff;color:#4a62cc}.action.full{width:100%;margin-top:18px}.hide{display:none!important}.bar{height:8px;background:#e9eef8;border-radius:9px;overflow:hidden;margin:15px 0}.bar>div{height:100%;width:0;background:linear-gradient(90deg,#6b7ff8,#8f6cf3);transition:width .35s}.sessionhead{display:flex;justify-content:space-between;align-items:center;gap:12px}.muted{color:#7b8799;font-size:13px}.question{font-size:22px;font-weight:800;line-height:1.4;margin:20px 0}.choices{display:grid;gap:10px}.choice{background:#fff;border:1.5px solid #e6eaf3;padding:15px;text-align:left;border-radius:14px;color:#26334b;transition:transform .2s,background .2s}.choice:disabled{cursor:default}.choice.correct{background:#e7f9ef;border-color:#26b779;color:#16774b}.choice.wrong{background:#fff0f1;border-color:#f1747e;color:#bb3d4a}.feedback{border-radius:15px;background:#f4f6fb;padding:14px;margin-top:14px;font-size:14px;line-height:1.5}.flashwrap{perspective:1100px;height:290px;margin:18px 0}.flash{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.75,.25,1);border:0;background:none;padding:0;text-align:center}.flash.flipped{transform:rotateY(180deg)}.face{position:absolute;inset:0;border-radius:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:28px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid #e3e9f5;background:linear-gradient(145deg,#fff,#f8faff);box-shadow:0 15px 30px #27365b12}.face.back{transform:rotateY(180deg);background:linear-gradient(145deg,#eff5ff,#eaf9f4)}.face strong{font-size:21px;line-height:1.35;white-space:pre-line}.face small{position:absolute;bottom:18px;color:#7e8aa0}.actions{display:flex;gap:10px}.actions .action{flex:1}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#fff;border:1px solid #e9edf5;border-radius:16px;padding:15px;text-align:center}.stat strong{font-size:23px;display:block}.stat small{font-size:11px;color:#7b879a}.celebrate{position:fixed;inset:0;pointer-events:none;z-index:50;display:grid;place-items:center}.tick{font-size:85px;font-weight:900;color:#20bd7c;text-shadow:0 6px 30px #32ce8b66;animation:pop .8s forwards}.particle{position:absolute;left:50%;top:46%;width:9px;height:14px;border-radius:3px;animation:burst .9s ease-out forwards;background:var(--c)}@keyframes pop{0%{opacity:0;transform:scale(.2) rotate(-20deg)}45%{opacity:1;transform:scale(1.35)}75%{opacity:1;transform:scale(.95)}100%{opacity:0;transform:scale(1.15)}}@keyframes burst{to{transform:translate(var(--x),var(--y)) rotate(640deg);opacity:0}}.enter{animation:enter .35s both}@keyframes enter{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}.shake{animation:shake .35s}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}.foot{text-align:center;color:#9ba5b4;font-size:12px;margin-top:24px}@media(max-width:430px){main{padding:18px 14px 60px}.panel{padding:18px}.question{font-size:20px}.face strong{font-size:19px}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+</style></head><body><main><header class="top"><div class="brand">Révise<b>+</b></div><span class="chip">DCOC-CA1</span></header><p class="sub">Apprends à ton rythme, progresse à chaque question ✨</p><section id="home"><div class="panel hero"><span class="eyebrow">TON ESPACE DE RÉVISION</span><h1>Prêt à maîtriser ton cours ? 🚀</h1><p>Entraîne-toi sur les recherches de produits, la fiabilité des sources et les arguments de vente.</p><div class="stats"><div class="stat"><strong id="total">0</strong><small>Questions</small></div><div class="stat"><strong id="best">—</strong><small>Meilleur QCM</small></div><div class="stat"><strong id="reviewCount">0</strong><small>À revoir</small></div></div></div><div class="modes"><button class="mode active" data-mode="qcm"><span class="emoji">🧠</span><strong>Mode QCM</strong><small>Choisis la bonne réponse</small></button><button class="mode" data-mode="flash"><span class="emoji">🃏</span><strong>Cartes mémoire</strong><small>Retourne et mémorise</small></button></div><div class="panel"><div class="settings"><div><label for="topic">CHAPITRE</label><select id="topic"><option value="all">Tous les chapitres</option><option value="1">Rechercher</option><option value="2">Sources fiables</option><option value="3">Arguments de vente</option><option value="review">À revoir</option></select></div><div><label for="amount">NOMBRE</label><select id="amount"><option value="10">10 questions</option><option value="20">20 questions</option><option value="all">Toutes</option></select></div></div><button id="start" class="action full">Commencer les révisions →</button></div></section><section id="session" class="hide"><div class="panel enter"><div class="sessionhead"><span id="progressText" class="eyebrow"></span><button id="quit" class="action secondary">Quitter</button></div><div class="bar"><div id="progressBar"></div></div><span id="topicText" class="muted"></span><div id="qcmView"><div id="question" class="question"></div><div id="choices" class="choices"></div><div id="feedback" class="feedback hide"></div><button id="next" class="action full hide">Question suivante →</button></div><div id="flashView" class="hide"><div class="flashwrap"><button id="flash" class="flash"><div class="face"><strong id="front"></strong><small>Appuie pour voir la réponse ↻</small></div><div class="face back"><strong id="back"></strong><small>Appuie pour retourner ↻</small></div></button></div><div class="actions"><button id="again" class="action secondary" disabled>🔁 À revoir</button><button id="known" class="action" disabled>✓ Je savais</button></div></div></div></section><section id="finish" class="hide"><div class="panel hero enter" style="text-align:center"><div style="font-size:60px">🏆</div><h1>Session terminée !</h1><p id="result"></p><button id="restart" class="action full">Nouvelle session</button></div></section><p class="foot">Basé sur tes supports de cours DCOC-CA1 · Fonctionne hors ligne après téléchargement du fichier</p></main><script>
+const raw=[
+[1,'Pourquoi effectuer des recherches sur un produit ?','Pour acquérir des connaissances et mieux conseiller le client.',['Pour éviter de parler au client','Pour ne plus comparer les produits','Pour remplacer les informations du fournisseur']],
+[1,'Quelle est la première étape d’une recherche ?','Fixer un objectif clair.',['Choisir un produit au hasard','Lire seulement les publicités','Demander le prix immédiatement']],
+[1,'Pourquoi comparer ses produits à ceux des concurrents ?','Pour identifier leurs différences et leurs avantages.',['Pour copier les emballages','Pour supprimer les avis clients','Pour éviter toute argumentation']],
+[1,'Quel est un avantage de tester soi-même un produit ?','Découvrir directement son utilisation et ses caractéristiques.',['Garantir le prix le plus bas','Éviter toute autre source','Prouver que tous les produits sont identiques']],
+[1,'Quelle source offre de très nombreuses possibilités de recherche ?','Internet.',['Le ticket de caisse','La caisse enregistreuse seule','Le rayon vide']],
+[1,'Que peut indiquer l’emballage d’un produit alimentaire ?','Des informations sur son utilisation et les intolérances.',['Les horaires de tous les magasins','Les ventes des concurrents','Les avis de tous les consommateurs']],
+[1,'Qui est un spécialiste interne ?','Un supérieur ou un collègue expérimenté.',['Un client inconnu','Un concurrent sans contact','Un moteur de recherche']],
+[1,'Pourquoi les fournisseurs sont-ils utiles ?','Ce sont des sources directes qui peuvent aussi proposer des formations.',['Ils remplacent tous les contrôles','Ils donnent toujours des avis indépendants','Ils ne connaissent pas les produits']],
+[1,'Quelle documentation peut servir à la recherche ?','Le système interne, les livres spécialisés et les documents de cours.',['Seulement les affiches publicitaires','Uniquement les réseaux sociaux','Aucune documentation']],
+[1,'Pourquoi utiliser des mots-clés spécifiques ?','Pour obtenir des résultats plus pertinents.',['Pour avoir toujours plus de résultats inutiles','Pour éviter les moteurs de recherche','Pour supprimer les synonymes']],
+[1,'Que peut-on faire si une recherche ne donne pas de bons résultats ?','Essayer des synonymes et ajuster les filtres.',['Toujours répéter la même recherche','Ignorer le sujet','Choisir la première réponse sans vérifier']],
+[1,'À quoi servent les recherches lors d’un entretien de vente ?','À construire des arguments et montrer la valeur ajoutée.',['À empêcher le client de poser des questions','À éviter de connaître les produits','À parler uniquement du magasin']],
+[2,'Quels sont les trois contrôles d’une source fiable ?','Actualité, éditeur et mots-clés.',['Prix, couleur et taille','Publicité, musique et logo','Longueur, police et image']],
+[2,'Quel signe peut indiquer une fausse information ?','Des erreurs d’orthographe ou de grammaire.',['Une date clairement indiquée','Un éditeur identifiable','Des références vérifiables']],
+[2,'Quel autre signe peut rendre une information suspecte ?','De nombreux points d’exclamation ou mots en majuscules.',['Une source bien identifiée','Des informations nuancées','Une explication détaillée']],
+[2,'Que penser d’une affirmation exagérée et douteuse ?','Il faut la vérifier avant de la croire.',['Elle est forcément exacte','Il faut immédiatement la partager','Elle remplace les sources officielles']],
+[2,'Que faire si des éléments ne sont pas retrouvés dans les moteurs de recherche ?','Vérifier davantage leur origine et leur fiabilité.',['Les accepter sans preuve','Les présenter comme certifiés','Les considérer comme toujours vrais']],
+[2,'Que faut-il faire face à un label de qualité ?','Vérifier le label auprès des organismes concernés.',['Croire automatiquement toutes les étiquettes','Se fier uniquement à sa couleur','Ne jamais demander de précisions']],
+[2,'Quel site est cité dans le cours pour les labels ?','Labelinfo.ch.',['Un site de météo','Un site de jeux vidéo','Un site de billets de train']],
+[2,'Pourquoi vérifier la date d’une source ?','Pour évaluer si les informations sont encore actuelles.',['Pour connaître la couleur du produit','Pour déterminer la taille du magasin','Pour éviter de lire son contenu']],
+[3,'Quels sont les six groupes d’arguments de vente ?','Publicitaire, commercial, qualité, utilisation, émotionnel et technique.',['Prix, caisse, stock, rayon, achat et retour','Couleur, taille, marque, date, magasin et ville','Internet, emballage, livre, radio, photo et vidéo']],
+[3,'Quel est le rôle d’un argument publicitaire ?','Susciter l’intérêt et le désir du client.',['Expliquer uniquement le stock','Afficher le numéro du rayon','Remplacer le service après-vente']],
+[3,'Quel exemple correspond à un argument commercial ?','Le premier service est inclus dans le prix.',['Cette veste est imperméable','Ce produit inspire confiance','Ce label indique une origine écologique']],
+[3,'Quel est le but d’un argument de qualité ?','Mettre en avant une qualité, une marque ou un label.',['Donner uniquement l’heure','Expliquer où se trouve la caisse','Parler uniquement de la météo']],
+[3,'À quoi sert un argument d’utilisation ?','Expliquer comment, où ou quand utiliser le produit.',['Décrire seulement sa publicité','Ignorer ses fonctions','Donner uniquement son prix']],
+[3,'Quel est un argument émotionnel ?','Un argument qui suscite un sentiment comme la confiance ou le plaisir.',['La durée de chargement uniquement','Le nombre de vis dans un appareil','Le code-barres']],
+[3,'Quel exemple est un argument technique ?','La durée de chargement ou la matière utilisée.',['Une promotion de 20 %','Une émotion ressentie','Un slogan accrocheur']],
+[3,'Une veste imperméable au vent et à l’eau est présentée avec quel type d’argument ?','Technique.',['Commercial','Publicitaire','Émotionnel']],
+[3,'« Cette perceuse permet de percer le béton » : quel argument ?','Utilisation.',['Émotionnel','Commercial','Publicitaire']],
+[3,'Pourquoi connaître les produits des concurrents ?','Pour expliquer les avantages et différences de son assortiment.',['Pour ne jamais parler de son assortiment','Pour éviter les comparaisons','Pour supprimer les recherches']],
+[3,'Comment rechercher les produits des concurrents ?','Comme ses propres produits, en prenant des notes.',['Sans consulter de sources','En se basant uniquement sur des rumeurs','Sans comparer les caractéristiques']]
 ];
-var TABS=[["all","Tout"],["4","Leçon 4"],["5","Leçon 5"],["6","Leçon 6"],["rev","À revoir"]];
-var st={deck:"all",q:[],i:0,flip:false,ok:0,ko:0};
-var rev={};
-try{rev=JSON.parse(localStorage.getItem("dcoc_rev")||"{}")}catch(e){rev={}}
-function save(){try{localStorage.setItem("dcoc_rev",JSON.stringify(rev))}catch(e){}}
-function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-function build(shuffle){
-  var ids=[];
-  C.forEach(function(c,n){
-    if(st.deck==="all"||String(c[0])===st.deck||(st.deck==="rev"&&rev[n]))ids.push(n);
-  });
-  if(shuffle){for(var j=ids.length-1;j>0;j--){var k=Math.floor(Math.random()*(j+1));var t=ids[j];ids[j]=ids[k];ids[k]=t}}
-  st.q=ids;st.i=0;st.flip=false;st.ok=0;st.ko=0;render();
-}
-function tabs(){
-  var h="";
-  TABS.forEach(function(t){
-    var n=t[0]==="rev"?Object.keys(rev).length:"";
-    h+='<button aria-pressed="'+(st.deck===t[0])+'" data-d="'+t[0]+'">'+t[1]+(n!==""?" ("+n+")":"")+"</button>";
-  });
-  var el=document.getElementById("tabs");el.innerHTML=h;
-  [].forEach.call(el.querySelectorAll("button"),function(b){b.onclick=function(){st.deck=b.getAttribute("data-d");build(false)}});
-}
-function render(){
-  tabs();
-  var s=document.getElementById("stage"),tot=st.q.length;
-  document.getElementById("prog").style.width=(tot?Math.min(st.i,tot)/tot*100:0)+"%";
-  document.getElementById("count").textContent=tot?("Carte "+Math.min(st.i+1,tot)+" sur "+tot):"";
-  document.getElementById("score").textContent=tot?(st.ok+" sues · "+st.ko+" à revoir"):"";
-  if(!tot){
-    s.innerHTML='<div class="end"><div class="big">Rien ici</div><p>'+(st.deck==="rev"?"Tu n'as aucune carte à revoir. Bravo !":"Aucune carte.")+'</p><button class="btn" id="all">Voir toutes les cartes</button></div>';
-    document.getElementById("all").onclick=function(){st.deck="all";build(false)};return;
-  }
-  if(st.i>=tot){
-    var pct=Math.round(st.ok/tot*100);
-    s.innerHTML='<div class="end"><div class="big">'+pct+' %</div><p>'+st.ok+' cartes sues, '+st.ko+' à revoir.</p>'+
-      (st.ko?'<button class="btn" id="rv">Revoir les cartes ratées</button>':'')+
-      '<button class="btn alt" id="rs">Recommencer (mélangé)</button></div>';
-    var r=document.getElementById("rv");
-    if(r)r.onclick=function(){st.deck="rev";build(true)};
-    document.getElementById("rs").onclick=function(){build(true)};
-    return;
-  }
-  var c=C[st.q[st.i]];
-  s.innerHTML='<div class="scene"><button class="card'+(st.flip?" flip":"")+'" id="card" aria-label="Retourner la carte">'+
-    '<div class="face"><span class="tag">Leçon '+c[0]+'</span><div class="q">'+esc(c[1])+'</div><span class="hint">Touche pour voir la réponse</span></div>'+
-    '<div class="face b"><span class="tag">Réponse</span><div class="a">'+esc(c[2])+'</div></div></button></div>'+
-    '<div class="row"><button class="no" id="no"'+(st.flip?"":" disabled")+'>À revoir</button><button class="yes" id="yes"'+(st.flip?"":" disabled")+'>Je savais</button></div>'+
-    '<div class="tools"><button id="sh">Mélanger</button><button id="sk">Passer</button></div>';
-  document.getElementById("card").onclick=function(){
-    st.flip=!st.flip;this.classList.toggle("flip",st.flip);
-    document.getElementById("no").disabled=!st.flip;document.getElementById("yes").disabled=!st.flip;
-  };
-  document.getElementById("yes").onclick=function(){answer(true)};
-  document.getElementById("no").onclick=function(){answer(false)};
-  document.getElementById("sh").onclick=function(){build(true)};
-  document.getElementById("sk").onclick=function(){st.i++;st.flip=false;render()};
-}
-function answer(good){
-  var id=st.q[st.i];
-  if(good){st.ok++;delete rev[id]}else{st.ko++;rev[id]=1}
-  save();st.i++;st.flip=false;render();
-}
-build(false);
-</script>
-</body>
-</html>
- 
+const data=raw.map((r,i)=>({id:i,topic:r[0],q:r[1],a:r[2],wrong:r[3]}));const names={1:'Rechercher des informations',2:'Fiabilité des sources',3:'Arguments de vente'};const $=id=>document.getElementById(id);const storage='reviseplus_dcoc_v1';let saved={};try{saved=JSON.parse(localStorage.getItem(storage)||'{}')}catch{};saved.review??=[];saved.best??=null;let mode='qcm',deck=[],index=0,correct=0,missed=0,locked=false;function persist(){try{localStorage.setItem(storage,JSON.stringify(saved))}catch{}}function shuffle(a){let b=[...a];for(let i=b.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}function stats(){$('total').textContent=data.length;$('best').textContent=saved.best===null?'—':saved.best+'%';$('reviewCount').textContent=saved.review.length}function show(id){['home','session','finish'].forEach(k=>$(k).classList.toggle('hide',k!==id))}function confetti(){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;let layer=document.createElement('div');layer.className='celebrate';let tick=document.createElement('div');tick.className='tick';tick.textContent='✓';layer.append(tick);for(let i=0;i<24;i++){let p=document.createElement('i');p.className='particle';let a=2*Math.PI*i/24,d=80+Math.random()*140;p.style.setProperty('--x',Math.cos(a)*d+'px');p.style.setProperty('--y',Math.sin(a)*d+'px');p.style.setProperty('--c',['#536ef0','#24c78a','#ffc857','#ee80c0'][i%4]);layer.append(p)}document.body.append(layer);setTimeout(()=>layer.remove(),950)}function mark(id,good){if(good)saved.review=saved.review.filter(x=>x!==id);else if(!saved.review.includes(id))saved.review.push(id);persist()}document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('.mode').forEach(x=>x.classList.toggle('active',x===b))});$('start').onclick=()=>{let topic=$('topic').value;let pool=data.filter(x=>topic==='all'||(topic==='review'?saved.review.includes(x.id):x.topic===+topic));if(!pool.length){alert('Aucune question dans cette sélection.');return}deck=shuffle(pool).slice(0,$('amount').value==='all'?pool.length:+$('amount').value);index=0;correct=0;missed=0;show('session');render()};function render(){if(index>=deck.length){finish();return}locked=false;let q=deck[index];$('progressText').textContent='Question '+(index+1)+' / '+deck.length;$('progressBar').style.width=(index/deck.length*100)+'%';$('topicText').textContent=names[q.topic];$('qcmView').classList.toggle('hide',mode!=='qcm');$('flashView').classList.toggle('hide',mode!=='flash');$('feedback').classList.add('hide');$('next').classList.add('hide');if(mode==='qcm'){$('question').textContent=q.q;let choices=shuffle([q.a,...q.wrong]);$('choices').replaceChildren();choices.forEach(c=>{let b=document.createElement('button');b.className='choice';b.textContent=c;b.onclick=()=>choose(c,b);$('choices').append(b)})}else{$('flash').classList.remove('flipped');$('front').textContent=q.q;$('back').textContent=q.a;$('known').disabled=true;$('again').disabled=true}}function choose(choice,button){if(locked)return;locked=true;let q=deck[index],good=choice===q.a;if(good){correct++;confetti()}else missed++;mark(q.id,good);document.querySelectorAll('.choice').forEach(b=>{b.disabled=true;if(b.textContent===q.a)b.classList.add('correct');else if(b===button)b.classList.add('wrong')});$('feedback').textContent=(good?'✓ Bonne réponse ! ':'✕ Pas tout à fait. ')+'Réponse : '+q.a;$('feedback').classList.remove('hide');$('next').classList.remove('hide')}$('next').onclick=()=>{index++;render()};$('flash').onclick=()=>{if(locked)return;$('flash').classList.toggle('flipped');let flipped=$('flash').classList.contains('flipped');$('known').disabled=!flipped;$('again').disabled=!flipped};function flashAnswer(good){if(locked)return;locked=true;let q=deck[index];if(good){correct++;confetti()}else missed++;mark(q.id,good);setTimeout(()=>{index++;render()},good?850:330)}$('known').onclick=()=>flashAnswer(true);$('again').onclick=()=>flashAnswer(false);function finish(){show('finish');let percent=Math.round(correct/deck.length*100);$('result').textContent=`${correct} sur ${deck.length} maîtrisées · ${percent}% de réussite · ${missed} à revoir.`;if(mode==='qcm'&&(saved.best===null||percent>saved.best)){saved.best=percent;persist()}stats()}$('restart').onclick=()=>{stats();show('home')};$('quit').onclick=()=>{stats();show('home')};stats();
+</script></body></html>
